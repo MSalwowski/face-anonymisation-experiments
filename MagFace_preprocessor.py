@@ -6,6 +6,10 @@ import time
 
 from common import detect_face
 
+'''
+depracated - decided to use the DeepFace library instead
+'''
+
 def align_face(detector, img):
     # get the first face
     face = detect_face(img, detector)
