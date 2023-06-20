@@ -4,13 +4,14 @@ import argparse
 import insightface
 import time
 
+from common import detect_face
 
 def align_face(detector, img):
-    # detect face in image
-    faces = detector.get(img)
-
     # get the first face
-    face = faces[0]
+    face = detect_face(img, detector)
+
+    if face is None:
+        return None
 
     # get 5 landmarks of face
     landmarks = face.kps
@@ -51,6 +52,10 @@ def process_images(input_dir, db_name, last_id=0, dst_format="JPG"):
 
         # Call the aligning function on the image
         processed_image = align_face(detector, image)
+
+        if processed_image is None:
+            print(f"Failed to process image: {image_file}")
+            continue
 
         if db_name == "FERET":
             identity = image_file.split("_")[0]

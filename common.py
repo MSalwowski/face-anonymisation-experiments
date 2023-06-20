@@ -5,8 +5,7 @@ def detect_face(image, detector=None):
     # Initialize face detector
     if detector is None:
         detector = insightface.app.FaceAnalysis()
-
-    detector.prepare(ctx_id=-1)
+        detector.prepare(ctx_id=-1)
 
     # Detect faces in the image
     faces = detector.get(image)
