@@ -49,7 +49,7 @@ def face_verification(database, model_name="ArcFace", detector_backend="mtcnn"):
             probe_name = probe_filename.split("d")[0]
 
             # Check if embeddings already exist for the probe image
-            probe_embedding_path = os.path.join(database, "probe_embeddings", f"{probe_name}_embedding.npy")
+            probe_embedding_path = os.path.join(database, "probe_embeddings", f"{os.path.splitext(probe_filename)[0]}_embedding.npy")
             if os.path.exists(probe_embedding_path):
                 probe_embedding = np.load(probe_embedding_path)
             else:
@@ -72,7 +72,7 @@ def face_verification(database, model_name="ArcFace", detector_backend="mtcnn"):
                     ref_name = ref_filename.split("d")[0]
 
                     # Check if embeddings already exist for the reference image
-                    ref_embedding_path = os.path.join(database, "reference_embeddings", f"{ref_name}_embedding.npy")
+                    ref_embedding_path = os.path.join(database, "reference_embeddings", f"{os.path.splitext(ref_filename)[0]}_embedding.npy")
                     if os.path.exists(ref_embedding_path):
                         ref_embedding = np.load(ref_embedding_path)
                     else:
