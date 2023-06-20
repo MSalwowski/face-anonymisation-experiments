@@ -21,7 +21,7 @@ def align_face(detector, img):
     return img_aligned
 
 
-def process_images(input_dir, db_name, last_id=0):
+def process_images(input_dir, db_name, last_id=0, dst_format="JPG"):
     # stopwatch start
     start_time = time.time()
 
@@ -67,14 +67,21 @@ def process_images(input_dir, db_name, last_id=0):
 
         # Rename the image
         old_image_name = os.path.splitext(image_file)[0]
-        new_image_name = f"{new_identity}_{old_image_name}.png"
+        if dst_format == "PNG":
+            new_image_name = f"{new_identity}_{old_image_name}.png"
+        elif dst_format == "JPG":
+            new_image_name = f"{new_identity}_{old_image_name}.jpg"
 
         # Add the image name to the list of images
         img_list += new_image_name + " 0 " + str(new_identity) + " 0" + "\n"
 
         # Save the processed image in the output directory
         output_path = os.path.join(output_dir, new_image_name)
-        cv2.imwrite(output_path, processed_image)
+
+        if dst_format == "PNG":
+            cv2.imwrite(output_path, processed_image)
+        elif dst_format == "JPG":
+            cv2.imwrite(output_path, processed_image, [cv2.IMWRITE_JPEG_QUALITY, 100])
 
         print(f"Processed image: {new_image_name}")
 
@@ -96,6 +103,7 @@ if __name__ == "__main__":
     parser.add_argument("img_dir", type=str, help="Path to the input image directory")
     parser.add_argument("db_name", type=str, help="Database name")
     parser.add_argument("last_id", type=int, nargs="?", default=0, help="Last identity number")
+    parser.add_argument("dst_format", type=str, nargs="?", default="JPG", help="Destination image format")
     args = parser.parse_args()
 
     # Call the function to process the images
