@@ -3,11 +3,11 @@ import numpy as np
 import argparse
 import os
 import time
+from deepface.commons import functions
 
 from anonymisation_methods.blackener import apply_blackener
 from anonymisation_methods.pixeliser import apply_pixelizer
 from anonymisation_methods.bluriser import apply_gaussian_blur
-from deepface.commons import functions
 
 
 def anonymise(database, method, strength):
@@ -60,7 +60,6 @@ def anonymise(database, method, strength):
 
 
 if __name__ == '__main__':
-    print(os.getcwd())
     parser = argparse.ArgumentParser(description="Anonymisation script")
     parser.add_argument("--database", type=str, help="Path to directory containing images to be anonymised")
     parser.add_argument("--method", type=str, help="Anonymisation method")
