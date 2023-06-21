@@ -35,23 +35,31 @@ def anonymise(database, method, strength):
             # Construct the path to the current image
             image_path = os.path.join(image_dir, image_filename)
 
-            try:
-                # Detect face in the image
-                faces = functions.extract_faces(image_path, detector_backend='mtcnn', enforce_detection=False)
-            except ValueError:
-                print(f'Face detection for {image_path} failed.')
-                continue
+            # Check if embeddings already exist for the reference image
+            ref_embedding_path = os.path.join(database, "reference_embeddings", f"{os.path.splitext(image_filename)[0]}_embedding.npy")
 
-            face = faces[0]
+            # Try to use cached facial area specifications
+            if os.path.exists(ref_embedding_path):
+                ref_embedding = np.load(ref_embedding_path)
+                face_region_specs = ref_embedding['facial_area']
+            else:
+                try:
+                    # Detect face in the image
+                    faces = functions.extract_faces(image_path, detector_backend='mtcnn', enforce_detection=False)
+                except ValueError:
+                    print(f'Face detection for {image_path} failed.')
+                    continue
+                face = faces[0]
+                face_region_specs = face[1]
 
             image = cv2.imread(image_path)
 
             if method == 'b':
-                anonymised_image = apply_blackener(image, face, strength)
+                anonymised_image = apply_blackener(image, face_region_specs, strength)
             elif method == 'p':
-                anonymised_image = apply_pixelizer(image, face, strength)
+                anonymised_image = apply_pixelizer(image, face_region_specs, strength)
             elif method == 'gb':
-                anonymised_image = apply_gaussian_blur(image, face, strength)
+                anonymised_image = apply_gaussian_blur(image, face_region_specs, strength)
 
             output_path = os.path.join(output_dir, image_filename)
             cv2.imwrite(output_path, anonymised_image)

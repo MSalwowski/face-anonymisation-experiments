@@ -45,7 +45,9 @@ def face_verification(database, model_name="ArcFace", detector_backend="mtcnn"):
             probe_embedding_path = os.path.join(database, "probe_embeddings", f"{os.path.splitext(probe_filename)[0]}_embedding.npy")
 
             if os.path.exists(probe_embedding_path):
-                probe_embedding = np.load(probe_embedding_path)
+                # todo: load and save correctly the whole dict, not only the np.array
+                probe_representation = np.load(probe_embedding_path, allow_pickle=True)
+                probe_embedding = probe_representation['embedding']
             else:
 
                 try:
@@ -58,10 +60,9 @@ def face_verification(database, model_name="ArcFace", detector_backend="mtcnn"):
                     undetectable_probes_count += 1
                     continue
 
-                probe_embedding = probe_representation[0]['embedding']
-
                 # Save the probe embeddings for future use
-                np.save(probe_embedding_path, probe_embedding)
+                np.save(probe_embedding_path, probe_representation[0])
+                probe_embedding = probe_representation[0]['embedding']
 
             # Iterate through the images in the references folder
             for ref_filename in os.listdir(references_path):

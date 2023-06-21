@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 
 
-def apply_blackener(image, face, opacity):
+def apply_blackener(image, face_region_specs, opacity):
     # Get the bounding box of the detected face
-    x = face[1]['x']
-    y = face[1]['y']
-    w = face[1]['w']
-    h = face[1]['h']
+    x = face_region_specs['x']
+    y = face_region_specs['y']
+    w = face_region_specs['w']
+    h = face_region_specs['h']
 
     # Extract the face region from the image
     face_region = image[y:y+h, x:x+w]
