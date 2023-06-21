@@ -4,10 +4,13 @@ import numpy as np
 
 def apply_blackener(image, face, opacity):
     # Get the bounding box of the detected face
-    bbox = face.bbox.astype(int)
+    x = face[1]['x']
+    y = face[1]['y']
+    w = face[1]['w']
+    h = face[1]['h']
 
     # Extract the face region from the image
-    face_region = image[bbox[1]:bbox[3], bbox[0]:bbox[2]]
+    face_region = image[y:y+h, x:x+w]
 
     # Create a black mask with the same shape as the face region
     mask = np.zeros_like(face_region, dtype=np.float32)
@@ -26,6 +29,6 @@ def apply_blackener(image, face, opacity):
 
     # Replace the face region in the original image with the blackened face
     blackened_image = image.copy()
-    blackened_image[bbox[1]:bbox[3], bbox[0]:bbox[2]] = blackened_face
+    blackened_image[y:y+h, x:x+w] = blackened_face
 
     return blackened_image
