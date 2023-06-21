@@ -66,6 +66,10 @@ def face_verification(database, model_name="ArcFace", detector_backend="mtcnn"):
             # Iterate through the images in the references folder
             for ref_filename in os.listdir(references_path):
                 if ref_filename.endswith(".png"):
+                    # Skip the current reference if it is undetectable
+                    if ref_filename in undetectable_references:
+                        print(f"Skipping undetectable reference: {ref_filename}")
+                        continue
                     # Construct the path to the current reference image
                     ref_image_path = os.path.join(references_path, ref_filename)
 
@@ -88,6 +92,9 @@ def face_verification(database, model_name="ArcFace", detector_backend="mtcnn"):
                             if ref_filename not in undetectable_references:
                                 undetectable_references.append(ref_filename)
                                 undetectable_references_file.write(f"{ref_filename}\n")
+
+                            # Save a zero vector as the embedding for the undetectable reference
+                            np.save(ref_embedding_path, np.zeros(1))
                             continue
 
                         ref_embedding = ref_representation[0]['embedding']
