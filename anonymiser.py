@@ -28,6 +28,7 @@ def anonymise(database, method, strength):
     os.makedirs(output_dir, exist_ok=True)
 
     image_dir = os.path.join(database, 'reference')
+    images_count = len(os.listdir(image_dir))
 
     for image_id, image_filename in enumerate(os.listdir(image_dir)):
         if image_filename.endswith('.png'):
@@ -57,6 +58,7 @@ def anonymise(database, method, strength):
             cv2.imwrite(output_path, anonymised_image)
 
             print(f'Image {image_filename} modified and saved successfully in {output_path}.')
+            print(f"{images_count - image_id - 1} images remaining, {image_id + 1} images processed")
 
 
 if __name__ == '__main__':
