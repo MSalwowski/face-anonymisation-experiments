@@ -8,12 +8,23 @@ The goal of this project is to experimentally evaluate the effectiveness of exis
 
 # Experiment specification
 
-Anonymisation techniques used:
-- _to be filled_
+(items in _italics_ not yet used or implemented)
+
+Anonymisation techniques:
+- blackening
+- pixelisation
+- blurring
+- _noising_
+- _face_identity_morphing_
 
 Face recognition models:
-- _to be filled_
+- ArcFace
+
+Face detection model:
+- mtcnn
+- _RetinaFace_
 
 Data sources:
-- [FERET](https://www.nist.gov/programs-projects/face-recognition-technology-feret)
 - [FRGC](https://www.nist.gov/programs-projects/face-recognition-grand-challenge-frgc)
+- _[FERET](https://www.nist.gov/programs-projects/face-recognition-technology-feret)_
+
