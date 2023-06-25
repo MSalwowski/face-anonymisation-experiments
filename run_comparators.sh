@@ -1,9 +1,10 @@
 #!/bin/env bash
 
-DATABASE="sample"
-METHOD="blurred"
+DATABASE="FRGC"
+METHOD="blackened"
+STRENGTHS="0.2"
 
-for STRENGTH in 2.0 5.0 8.0
+for STRENGTH in $STRENGTHS
 do
   cp -r $DATABASE/anonymised/$METHOD/$STRENGTH $DATABASE
   mv $DATABASE/$STRENGTH $DATABASE/reference
