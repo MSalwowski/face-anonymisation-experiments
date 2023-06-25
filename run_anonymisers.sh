@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DATABASE="sample"
-METHOD="p"
-STRENGTHS="10"
+DATABASE="FRGC"
+METHOD="gn"
+STRENGTHS="0.1 0.2 0.3 0.4"
 
 for STRENGTH in $STRENGTHS
 do
