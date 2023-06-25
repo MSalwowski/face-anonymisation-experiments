@@ -8,6 +8,7 @@ from deepface.commons import functions
 from anonymisation_methods.blackener import apply_blackener
 from anonymisation_methods.pixeliser import apply_pixelizer
 from anonymisation_methods.bluriser import apply_gaussian_blur
+from anonymisation_methods.noiser import apply_gaussian_noise
 
 
 def anonymise(database, method, strength):
@@ -21,6 +22,9 @@ def anonymise(database, method, strength):
     elif method == 'gb':
         strength = float(strength)
         output_dir = os.path.join(database, 'anonymised', 'blurred', str(strength))
+    elif method == 'gn':
+        strength = float(strength)
+        output_dir = os.path.join(database, 'anonymised', 'noised', str(strength))
     else:
         raise ValueError('Invalid anonymisation method.')
 
@@ -53,6 +57,8 @@ def anonymise(database, method, strength):
                 anonymised_image = apply_pixelizer(image, face, strength)
             elif method == 'gb':
                 anonymised_image = apply_gaussian_blur(image, face, strength)
+            elif method == 'gn':
+                anonymised_image = apply_gaussian_noise(image, face, strength)
 
             output_path = os.path.join(output_dir, image_filename)
             cv2.imwrite(output_path, anonymised_image)

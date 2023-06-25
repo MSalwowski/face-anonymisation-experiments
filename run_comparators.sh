@@ -1,8 +1,8 @@
 #!/bin/env bash
 
-DATABASE="FRGC"
-METHOD="blackened"
-STRENGTHS="0.2"
+DATABASE="sample"
+METHOD="pixelised"
+STRENGTHS="50 40 30 20 10"
 
 for STRENGTH in $STRENGTHS
 do
