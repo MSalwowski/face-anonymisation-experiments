@@ -49,14 +49,19 @@ def generate_DET_plots(database, method_abb, strengths_float, include_bona_fide=
 
     if include_bona_fide:
         # Load bona-fide scores
-        bona_fide_mated_score_path = os.path.join(database, 'results', 'base', 'scores', 'scores_mated.txt')
-        bona_fide_nonmated_score_path = os.path.join(database, 'results', 'base', 'scores', 'scores_nonmated.txt')
+        # todo[1]: remove hack for strength 1.0
+        bona_fide_mated_score_path = os.path.join(database, 'results', 'base', '1.0', 'scores', 'scores_mated.txt')
+        bona_fide_nonmated_score_path = os.path.join(database, 'results', 'base', '1.0', 'scores', 'scores_nonmated.txt')
         bona_fide_tar = np.loadtxt(bona_fide_mated_score_path)
         bona_fide_non = np.loadtxt(bona_fide_nonmated_score_path)
         det.plot(tar=adjust_scores_for_DET(bona_fide_tar), non=adjust_scores_for_DET(bona_fide_non), label='bona fide')
 
     for strength, score in systems.items():
-        det.plot(tar=adjust_scores_for_DET(score['tar']), non=adjust_scores_for_DET(score['non']), label=method + ' ' + str(strength))
+        if method == "deepprivacy":
+            label = "DeepPrivacy2"
+        else:
+            label = method + ' ' + str(strength)
+        det.plot(tar=adjust_scores_for_DET(score['tar']), non=adjust_scores_for_DET(score['non']), label=label)
     det.legend_on(loc="lower left")
     det.save(plot_path, 'png')
     print('DET plot saved to', plot_path)

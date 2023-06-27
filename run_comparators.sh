@@ -1,8 +1,8 @@
 #!/bin/env bash
 
 DATABASE="FRGC"
-METHOD="pixelised"
-STRENGTHS="20 30 40 50"
+METHOD="deepprivacy"
+STRENGTHS="1.0"
 
 for STRENGTH in $STRENGTHS
 do

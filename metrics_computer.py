@@ -15,7 +15,7 @@ def calculate_FTX(database, method, strength):
         f.close()
     undetected_faces = undetected_faces_line.split(' ')[2]
     total_images = total_images_line.split(' ')[2]
-    FTX = round(int(undetected_faces) / int(total_images) * 100, 5)
+    FTX = round(int(undetected_faces) / int(total_images) * 100, 1)
     return FTX
 
 # source: https://github.com/manuelaguadomtz/pyeer/blob/master/pyeer/eer_stats.py
@@ -110,9 +110,9 @@ def compute_metrics(database):
             metrics[method][strength]['EER'] = round(get_eer(fmrs, fnmrs) * 100, 5)
 
             # metric 3: FNMR@FMR=0.01%
-            metrics[method][strength]['FNMR@FMR=0.01%'] = round(get_fmr_op(fmrs, fnmrs, 0.0001) * 100, 5)
+            metrics[method][strength]['FNMR@FMR=0.1%'] = round(get_fmr_op(fmrs, fnmrs, 0.001) * 100, 5)
 
-            output_file.write('Method: {}, Strength: {}, FTX: {}, EER: {}, FNMR@FMR=0.01%: {} \n'.format(method, strength, metrics[method][strength]['FTX'], metrics[method][strength]['EER'], metrics[method][strength]['FNMR@FMR=0.01%']))
+            output_file.write('{}\t{}\t{}\t{}\t{}\n'.format(method[:2], strength, metrics[method][strength]['FTX'], metrics[method][strength]['EER'], metrics[method][strength]['FNMR@FMR=0.1%']))
 
     output_file.close()
     print(f'Metrics successfully saved to {output_path}')
