@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DATABASE="FRGC"
-METHOD="dp"
-STRENGTHS="1.0"
+DATABASE="sample"
+METHOD="b"
+STRENGTHS="0.1 0.2 0.3 0.4 0.5"
 
 python3 DET_plotter.py --database $DATABASE --method $METHOD --strengths $STRENGTHS --include_bona_fide
